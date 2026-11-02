@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Platform 2026 — State of Play</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: dark;
+  --bg:#060a13;
+  --bg-2:#0a1120;
+  --panel:#0d1627;
+  --panel-2:#101c31;
+  --line:rgba(140,168,210,.14);
+  --line-strong:rgba(140,168,210,.26);
+  --ink:#eef3fb;
+  --ink-dim:#c4d2e8;
+  --muted:#8699b8;
+  --faint:#5f7a99;
+  --muted-2:#6c7f9e;
+  --brand:#2f6bff;
+  --brand-ink:#5b8bff;
+  --cyan:#36d1ff;
+  --green:#2ed39a;
+  --amber:#ffb43d;
+  --red:#ff6b7a;
+  --grad:linear-gradient(103deg,#2f6bff 0%,#36d1ff 100%);
+  --pad: max(26px, env(safe-area-inset-left)) ;
+  box-sizing:border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  background:
+    radial-gradient(1200px 680px at 82% -8%, rgba(47,107,255,.18), transparent 60%),
+    radial-gradient(900px 620px at 6% 108%, rgba(54,209,255,.10), transparent 55%),
+    var(--bg);
+  color:var(--ink);
+  font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  font-weight:450;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow:hidden;
+}
+h1,h2,h3,.disp{font-family:"Sora","Inter",system-ui,sans-serif;font-weight:600;letter-spacing:-.02em;margin:0}
+::selection{background:rgba(54,209,255,.28)}
+
+/* ---------- shell ---------- */
+#fit{position:fixed;inset:0;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.deck{width:1280px;height:720px;flex:0 0 auto;transform:scale(var(--s,1));transform-origin:center center;display:flex;flex-direction:column;position:relative}
+body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:16px clamp(18px,4vw,46px) 10px;flex:0 0 auto;z-index:40}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.mark{width:26px;height:18px;flex:0 0 auto;filter:drop-shadow(0 0 10px rgba(54,209,255,.35))}
+.brand b{font-family:"Sora";font-weight:600;font-size:13.5px;letter-spacing:.02em;color:var(--ink)}
+.brand span{color:var(--muted);font-weight:450}
+.count{display:flex;align-items:baseline;gap:8px;white-space:nowrap}
+.count .n{font-family:"Sora";font-weight:600;font-size:15px;color:var(--ink)}
+.count .lbl{font-size:11.5px;color:var(--muted);letter-spacing:.01em}
+.count .dot{width:6px;height:6px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 4px rgba(255,180,61,.14);display:inline-block;margin-right:2px;animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.stage{position:relative;flex:1 1 auto;min-height:0}
+.slide{position:absolute;inset:0;padding:clamp(10px,2vh,22px) clamp(18px,4vw,46px) clamp(14px,2.4vh,26px);
+  opacity:0;visibility:hidden;transform:translateY(8px);
+  transition:opacity .5s ease,transform .5s ease,visibility 0s linear .5s;
+  overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;justify-content:center}
+.slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.2,1),visibility 0s}
+.slide::-webkit-scrollbar{width:9px}
+.slide::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:9px}
+
+.wrap{width:100%;max-width:1180px;margin:0 auto}
+
+/* eyebrow / labels — used as status encoders, not chrome */
+.kicker{display:inline-flex;align-items:center;gap:9px;color:var(--brand-ink);
+  font-family:"Sora";font-weight:500;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase}
+.kicker i{width:22px;height:1px;background:linear-gradient(90deg,var(--brand-ink),transparent);display:inline-block}
+
+.lead{font-size:clamp(15px,1.9vw,19px);color:var(--ink-dim);line-height:1.55;max-width:66ch;font-weight:450}
+
+/* bottom rail nav */
+.rail{flex:0 0 auto;display:flex;align-items:center;gap:14px;
+  padding:9px clamp(18px,4vw,46px) max(12px,env(safe-area-inset-bottom)) ;z-index:40}
+.steps{display:flex;gap:7px;flex:1 1 auto;flex-wrap:wrap}
+.step{appearance:none;background:none;border:0;cursor:pointer;padding:8px 0;flex:0 0 auto;display:flex;align-items:center;gap:7px;color:var(--muted-2);font:inherit}
+.step .bar{width:30px;height:3px;border-radius:3px;background:var(--line-strong);transition:background .35s,width .35s}
+.step .t{font-size:11.5px;letter-spacing:.01em;opacity:0;transition:opacity .3s;white-space:nowrap}
+.step:hover .t,.step:focus-visible .t{opacity:1}
+.step.on .bar{background:var(--grad);width:44px;box-shadow:0 0 14px rgba(54,209,255,.5)}
+.step.on .t{opacity:1;color:var(--ink-dim)}
+.arrows{display:flex;gap:9px;flex:0 0 auto}
+.arrows button{appearance:none;width:42px;height:42px;border-radius:12px;border:1px solid var(--line-strong);
+  background:rgba(255,255,255,.03);color:var(--ink);cursor:pointer;font-size:17px;line-height:1;
+  display:grid;place-items:center;transition:border-color .2s,background .2s,transform .1s}
+.arrows button:hover{border-color:var(--brand);background:rgba(47,107,255,.14)}
+.arrows button:active{transform:scale(.94)}
+.arrows button:disabled{opacity:.3;cursor:not-allowed}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+
+/* ---------- slide 1 : promise ---------- */
+.promise-grid{display:grid;grid-template-columns:1.25fr .9fr;gap:clamp(26px,4vw,64px);align-items:center}
+.promise h1{font-size:clamp(34px,6.4vw,74px);line-height:.98;font-weight:700}
+.promise h1 .soft{color:var(--muted);font-weight:500}
+.quote{margin:22px 0 0;padding:20px 22px;border:1px solid var(--line);border-left:2px solid var(--brand);
+  border-radius:14px;background:linear-gradient(180deg,rgba(47,107,255,.06),rgba(47,107,255,.01));
+  font-size:clamp(14px,1.55vw,17px);line-height:1.62;color:var(--ink-dim)}
+.quote em{color:var(--ink);font-style:normal;font-weight:500}
+.tests{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+.test{font-family:"Sora";font-weight:500;font-size:12.5px;color:var(--ink-dim);
+  border:1px solid var(--line-strong);border-radius:999px;padding:7px 14px;background:rgba(255,255,255,.02)}
+.test b{color:var(--brand-ink);font-weight:600;margin-right:6px}
+.cd{text-align:left}
+.cd .big{font-family:"Sora";font-weight:700;font-size:clamp(66px,12vw,138px);line-height:.86;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.04em}
+.cd .cap{color:var(--muted);font-size:14px;margin-top:10px;max-width:24ch}
+.cd .date{margin-top:20px;font-family:"Sora";font-weight:600;color:var(--ink);font-size:15px}
+.cd .date s{color:var(--muted);font-weight:450;text-decoration:none;display:block;font-size:12.5px;margin-top:3px}
+
+/* ---------- slide 2 : scorecard ---------- */
+.head-row{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+.head-row h2{font-size:clamp(25px,3.6vw,42px);font-weight:600}
+.gates{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.gate{position:relative;border:1px solid var(--line);border-radius:16px;padding:20px 18px 18px;
+  background:linear-gradient(180deg,var(--panel),var(--bg-2));overflow:hidden}
+.gate::before{content:"";position:absolute;inset:0 0 auto;height:3px;background:var(--gc,var(--muted));opacity:.9}
+.gate .g-ix{font-family:"Sora";font-weight:600;font-size:12px;color:var(--muted);letter-spacing:.04em}
+.gate h3{font-size:17px;margin:3px 0 16px;font-weight:600}
+.gauge{position:relative;width:96px;height:96px;margin:0 auto 14px}
+.gauge svg{transform:rotate(-90deg)}
+.gauge .trk{stroke:rgba(255,255,255,.07)}
+.gauge .val{stroke:var(--gc);stroke-linecap:round;
+  stroke-dasharray:var(--circ);stroke-dashoffset:var(--circ);
+  transition:stroke-dashoffset 1.1s cubic-bezier(.2,.7,.2,1)}
+.slide.active .gauge .val{stroke-dashoffset:var(--off)}
+.gauge .mid{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.gauge .mid b{font-family:"Sora";font-weight:600;font-size:12px;letter-spacing:.08em;color:var(--gc)}
+.gate p{font-size:12.6px;color:var(--muted);line-height:1.5;margin:0;text-align:center}
+.g-green{--gc:var(--green)} .g-amber{--gc:var(--amber)} .g-red{--gc:var(--red)}
+.strip{margin-top:20px;border:1px solid var(--line);border-radius:14px;padding:16px 20px;
+  background:linear-gradient(100deg,rgba(47,107,255,.10),rgba(54,209,255,.04));
+  display:flex;gap:16px;align-items:center;font-size:clamp(13.5px,1.55vw,16px);color:var(--ink-dim);line-height:1.5}
+.strip b{color:var(--ink);font-weight:600}
+.strip .em{color:var(--cyan);font-weight:600}
+
+/* ---------- slide 3 : definition ---------- */
+.dtop{display:grid;grid-template-columns:4fr 3fr;gap:clamp(22px,3.4vw,46px);align-items:center}
+.chain{display:flex;flex-direction:column;gap:12px}
+.cstep{display:flex;gap:16px;align-items:flex-start;position:relative;padding-left:4px}
+.cstep .node{flex:0 0 auto;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
+  border:1px solid var(--line-strong);background:var(--panel);font-family:"Sora";font-weight:600;color:var(--brand-ink);font-size:18px}
+.cstep:nth-child(1) .node{color:#7aa2ff}.cstep:nth-child(2) .node{color:#4f9dff}
+.cstep:nth-child(3) .node{color:#2fc0f5}.cstep:nth-child(4) .node{color:#36d1ff;border-color:rgba(54,209,255,.5);box-shadow:0 0 22px rgba(54,209,255,.25)}
+.cstep h3{font-size:19px;font-weight:600}
+.cstep p{margin:3px 0 0;font-size:13px;color:var(--muted);line-height:1.5;max-width:46ch}
+.cline{position:absolute;left:25px;top:48px;height:calc(100% - 10px);width:1px;background:linear-gradient(var(--line-strong),transparent)}
+.proof{border:1px solid var(--line);border-radius:18px;padding:22px;background:linear-gradient(180deg,var(--panel),var(--bg-2))}
+.player{position:relative;border-radius:13px;overflow:hidden;border:1px solid var(--line-strong);
+  background:
+    radial-gradient(120% 140% at 78% 20%, rgba(47,107,255,.5), transparent 55%),
+    radial-gradient(130% 150% at 15% 90%, rgba(54,209,255,.4), transparent 55%),
+    #0a1430;aspect-ratio:16/9;display:grid;place-items:center;text-decoration:none;
+  appearance:none;width:100%;cursor:pointer;font:inherit;color:inherit;padding:0}
+.player .play{width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;backdrop-filter:blur(4px);
+  transition:transform .2s,background .2s}
+.player:hover .play{transform:scale(1.08);background:rgba(255,255,255,.2)}
+.player .play svg{margin-left:4px}
+.player .tag{position:absolute;left:14px;bottom:12px;font-family:"Sora";font-weight:500;font-size:12px;color:#dce8ff;letter-spacing:.02em}
+.proof .pt{margin:16px 2px 0;font-size:13.5px;color:var(--muted);line-height:1.55}
+.proof .pt b{color:var(--ink)}
+/* fullscreen video */
+.vfs{position:fixed;inset:0;z-index:200;background:rgba(3,6,12,.97);
+  display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;
+  padding:4vmin max(4vmin,env(safe-area-inset-left))}
+.vfs.open{display:flex}
+.vfs-inner{width:min(100%,1440px);display:flex;flex-direction:column;align-items:center;gap:12px}
+.vfs-frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;
+  border:1px solid var(--line-strong);background:#000;box-shadow:0 30px 90px rgba(0,0,0,.6)}
+.vfs-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vfs-close{position:absolute;top:max(16px,env(safe-area-inset-top));right:20px;width:46px;height:46px;
+  border-radius:12px;border:1px solid var(--line-strong);background:rgba(255,255,255,.06);color:var(--ink);
+  font-size:24px;cursor:pointer;line-height:1;z-index:2;display:grid;place-items:center}
+.vfs-close:hover{background:rgba(255,255,255,.14)}
+.vfs-fallback{color:var(--muted);font-size:12.5px;text-decoration:none;border-bottom:1px dotted var(--muted-2)}
+.vfs-fallback:hover{color:var(--cyan)}
+
+/* ---------- slide 4 : flagships + promoters ---------- */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(22px,3.2vw,44px)}
+.col-h{font-family:"Sora";font-weight:600;font-size:16px;color:var(--ink);margin:0 0 15px;display:flex;align-items:center;gap:10px}
+.col-h s{text-decoration:none;color:var(--muted);font-weight:450;font-size:12.5px}
+.flag{display:flex;align-items:center;gap:13px;border:1px solid var(--line);border-radius:12px;
+  padding:13px 15px;background:var(--panel);margin-bottom:10px}
+.flag .edge{font-family:"Sora";font-weight:600;font-size:11px;color:var(--brand-ink);
+  border:1px solid var(--line-strong);border-radius:7px;padding:4px 7px;flex:0 0 auto;letter-spacing:.02em}
+.flag .nm{flex:1 1 auto;min-width:0}
+.flag .nm b{font-weight:600;font-size:14.5px;color:var(--ink);display:block}
+.flag .nm s{text-decoration:none;color:var(--muted);font-size:11.5px}
+.st{font-family:"Sora";font-weight:600;font-size:10.5px;letter-spacing:.07em;padding:5px 9px;border-radius:999px;flex:0 0 auto;white-space:nowrap}
+.st.live{color:var(--green);background:rgba(46,211,154,.12);border:1px solid rgba(46,211,154,.3)}
+.st.done{color:#9fd0ff;background:rgba(47,107,255,.12);border:1px solid rgba(47,107,255,.3)}
+.st.prog{color:var(--amber);background:rgba(255,180,61,.12);border:1px solid rgba(255,180,61,.32)}
+.st.prog::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--amber);display:inline-block;margin-right:6px;vertical-align:middle;animation:pulse 1.5s infinite}
+.ladder{position:relative;padding-left:6px}
+.rung{display:grid;grid-template-columns:20px 1fr auto;gap:13px;align-items:center;padding:11px 0;position:relative}
+.rung .pip{width:13px;height:13px;border-radius:50%;border:2px solid var(--muted-2);background:var(--bg);z-index:2;justify-self:center}
+.rung.l1 .pip{border-color:var(--green);background:var(--green);box-shadow:0 0 0 5px rgba(46,211,154,.16)}
+.rung.l2 .pip,.rung.l3 .pip{border-color:var(--amber);background:rgba(255,180,61,.25)}
+.rung .line{position:absolute;left:12.5px;top:22px;bottom:-11px;width:2px;background:var(--line-strong);z-index:1}
+.rung:last-child .line{display:none}
+.rung .who b{font-weight:600;font-size:14.5px;color:var(--ink)}
+.rung .who s{text-decoration:none;display:block;color:var(--muted);font-size:11.8px;margin-top:1px}
+.rung .when{font-family:"Sora";font-weight:500;font-size:11.5px;color:var(--ink-dim);text-align:right;white-space:nowrap}
+.pipeline{margin-top:14px;border-top:1px solid var(--line);padding-top:13px;font-size:12px;color:var(--muted);line-height:1.5}
+.pipeline b{color:var(--ink-dim);font-weight:550;font-family:"Sora"}
+
+/* ---------- slide 5 : the machine ---------- */
+.m-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:10px}
+.m-head h2{font-size:clamp(23px,3.3vw,38px);font-weight:600}
+.m-head .sub{color:var(--muted);font-size:13.5px;margin-top:5px;max-width:52ch;line-height:1.5}
+.tally{display:flex;gap:10px;flex:0 0 auto}
+.tally .t{border:1px solid var(--line-strong);border-radius:12px;padding:9px 15px;background:var(--panel);text-align:center}
+.tally .t b{font-family:"Sora";font-weight:700;font-size:24px;display:block;line-height:1;color:var(--ink)}
+.tally .t.count b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tally .t s{text-decoration:none;font-size:10.5px;color:var(--muted);letter-spacing:.04em}
+
+.matrix{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,var(--panel),#091020);overflow:hidden}
+.mx-cols{display:grid;grid-template-columns:var(--mxgrid);gap:0;align-items:center;
+  padding:11px 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.015)}
+.mx-cols .ch{font-family:"Sora";font-weight:500;font-size:11px;color:var(--muted);text-align:center;letter-spacing:.02em}
+.mx-cols .lead-h{font-family:"Sora";font-weight:500;font-size:11px;color:var(--muted);letter-spacing:.06em}
+.mx-cols .notify-h,.mx-cols .remind-h{grid-column:span 4;text-align:center}
+.mx-cols .remind-h{grid-column:span 1}
+.mx-sub{display:grid;grid-template-columns:var(--mxgrid);padding:6px 16px;border-bottom:1px solid var(--line);gap:0}
+.mx-sub span{font-size:9.5px;color:var(--muted-2);text-align:center;font-family:"Sora";letter-spacing:.02em}
+.mx-sub .g1{grid-column:2 / span 4;text-align:center;color:var(--brand-ink)}
+.mx-sub .g2{grid-column:6 / span 1;text-align:center;color:var(--brand-ink)}
+.row{display:grid;grid-template-columns:var(--mxgrid);align-items:center;padding:9px 16px;border-bottom:1px solid rgba(140,168,210,.07);position:relative}
+.row:last-child{border-bottom:0}
+.row.queued{opacity:.5}
+.src{display:flex;align-items:center;gap:10px;min-width:0}
+.src .org{font-family:"Sora";font-weight:600;font-size:9px;letter-spacing:.03em;padding:3px 6px;border-radius:5px;flex:0 0 auto}
+.src .org.sm{color:#ff9fb0;background:rgba(255,107,122,.1);border:1px solid rgba(255,107,122,.24)}
+.src .org.cm{color:#9fd0ff;background:rgba(47,107,255,.1);border:1px solid rgba(47,107,255,.26)}
+.src .nm{font-weight:550;font-size:13px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell{display:grid;place-items:center}
+.dotc{width:13px;height:13px;border-radius:4px;border:1px solid var(--line-strong);background:rgba(255,255,255,.02);transition:background .3s,box-shadow .3s,border-color .3s}
+.row.on .dotc.fill{background:var(--grad);border-color:transparent;box-shadow:0 0 12px rgba(54,209,255,.55)}
+.row .dotc.fill{background:rgba(47,107,255,.16);border-color:rgba(47,107,255,.3)}
+.row.queued .dotc.fill{background:rgba(255,255,255,.05);border-color:var(--line-strong)}
+.src .qd{font-family:"Sora";font-size:9px;color:var(--muted-2);border:1px solid var(--line);border-radius:5px;padding:2px 6px;margin-left:2px}
+.mx-cap{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.mx-cap .note{font-size:12.5px;color:var(--muted);line-height:1.5;flex:1 1 340px}
+.mx-cap .note b{color:var(--ink-dim);font-weight:550}
+.mx-cap .fire{appearance:none;cursor:pointer;font:inherit;font-family:"Sora";font-weight:600;font-size:12.5px;color:#06101f;
+  border:0;border-radius:10px;padding:10px 16px;background:var(--grad);box-shadow:0 6px 22px rgba(47,107,255,.3)}
+.mx-cap .fire:active{transform:translateY(1px)}
+.engine-line{font-family:"Sora";font-weight:600;font-size:clamp(14px,1.7vw,18px);color:var(--ink);margin-top:4px}
+.engine-line span{color:var(--cyan)}
+/* status board (slide 5) */
+.track{position:relative;height:38px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line);margin:16px 0 30px}
+.track .seg{position:absolute;top:0;bottom:0;width:0;transition:width .95s cubic-bezier(.2,.7,.2,1)}
+.slide.active .track .seg{width:var(--w)}
+.track .seg.d{left:0;--w:28.57%;background:linear-gradient(180deg,#34e0a6,#1fae7f);border-radius:11px 0 0 11px;transition-delay:.15s}
+.track .seg.p{left:28.57%;--w:42.86%;transition-delay:.55s;background:repeating-linear-gradient(135deg,#ffbe55,#ffbe55 11px,#f0a938 11px,#f0a938 22px)}
+.track .seg.s{left:71.43%;--w:28.57%;transition-delay:1s;background:rgba(111,151,255,.26);border-radius:0 11px 11px 0}
+.track .marker{position:absolute;top:-9px;bottom:-9px;left:71.43%;width:2px;background:var(--ink);z-index:4;opacity:0;transition:opacity .4s .95s}
+.slide.active .track .marker{opacity:.9}
+.track .marker b{position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);white-space:nowrap;font-family:"Sora";font-weight:600;font-size:10px;letter-spacing:.08em;color:var(--ink)}
+.scale{display:flex;flex-wrap:wrap;gap:16px;align-items:center;font-size:12px;color:var(--muted);margin-bottom:12px}
+.scale span{display:inline-flex;align-items:center;gap:7px}
+.scale i{width:11px;height:11px;border-radius:3px;display:inline-block}
+.scale i.d{background:#2ed39a}.scale i.p{background:#ffbe55}.scale i.s{background:rgba(111,151,255,.55)}
+.scale .reach{margin-left:auto;font-family:"Sora";font-weight:600;color:var(--ink-dim)}
+.scale .reach em{font-style:normal;color:var(--cyan)}
+.lanes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.lane{border:1px solid var(--line);border-radius:14px;padding:11px 14px;background:linear-gradient(180deg,var(--panel),var(--bg-2))}
+.lane.delivered{--c:#2ed39a;--cbg:rgba(46,211,154,.13);--cbd:rgba(46,211,154,.36);--cring:rgba(46,211,154,.16)}
+.lane.inprog{--c:#ffbe55;--cbg:rgba(255,190,85,.13);--cbd:rgba(255,190,85,.36);--cring:rgba(255,190,85,.16)}
+.lane.stretch{--c:#6f97ff;--cbg:rgba(111,151,255,.13);--cbd:rgba(111,151,255,.36);--cring:rgba(111,151,255,.16)}
+.lane-h{display:flex;align-items:center;gap:9px;font-family:"Sora";font-weight:600;font-size:14px;color:var(--ink);padding-bottom:8px;margin-bottom:7px;border-bottom:1px solid var(--line)}
+.lane-h::before{content:"";width:9px;height:9px;border-radius:3px;background:var(--c)}
+.lane-h .n{margin-left:auto;font-family:"Sora";font-weight:600;font-size:12px;color:var(--c);background:var(--cbg);border-radius:999px;padding:3px 10px}
+.it{display:flex;align-items:center;gap:10px;padding:7px 2px;border-bottom:1px solid rgba(140,168,210,.07)}
+.it:last-child{border-bottom:0}
+.it .mk{flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 0 3px var(--cring)}
+.it.wip .mk{animation:pulse 1.6s ease-in-out infinite}
+.it .xt{flex:1 1 auto;min-width:0}
+.it .xt b{display:block;font-weight:550;font-size:12.5px;line-height:1.25;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.it .xt s{text-decoration:none;font-size:10px;line-height:1.2;color:var(--muted)}
+.it .tg{flex:0 0 auto;font-family:"Sora";font-weight:600;font-size:9.5px;letter-spacing:.05em;color:var(--c);border:1px solid var(--cbd);border-radius:999px;padding:3px 8px;white-space:nowrap}
+.board-note{margin-top:10px;font-size:11.5px;color:var(--muted);line-height:1.45}
+.board-note b{color:var(--ink-dim);font-weight:550}
+.slide[data-name="The ten"]{padding-top:14px;padding-bottom:14px;justify-content:flex-start}
+@media (max-width:860px){.lanes{grid-template-columns:1fr}.track{margin-top:34px}.scale .reach{margin-left:0;flex-basis:100%}}
+/* live list (slide 6) */
+.live{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.live-row{display:flex;align-items:center;gap:16px;border:1px solid var(--line);border-radius:14px;padding:15px 18px;background:linear-gradient(180deg,var(--panel),var(--bg-2))}
+.live-row .ind{flex:0 0 auto;width:10px;height:10px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 4px rgba(255,180,61,.14);animation:pulse 1.8s ease-in-out infinite}
+.live-row .mn{flex:1 1 auto;min-width:0}
+.live-row .mn b{font-family:"Sora";font-weight:600;font-size:15px;color:var(--ink);display:block}
+.live-row .mn s{text-decoration:none;color:var(--muted);font-size:12.5px;display:block;margin-top:2px;line-height:1.45}
+.live-row .tag{flex:0 0 auto;font-family:"Sora";font-weight:600;font-size:10.5px;letter-spacing:.06em;color:var(--ink-dim);border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px;white-space:nowrap}
+.live-close{margin-top:20px;text-align:center;font-family:"Sora";font-weight:600;font-size:clamp(15px,2vw,22px);line-height:1.35;color:var(--ink)}
+.live-close span{color:var(--cyan)}
+
+/* ---------- slide 6 : closeouts ---------- */
+.closeouts{display:grid;grid-template-columns:1fr auto 1fr;gap:clamp(16px,2.6vw,36px);align-items:stretch}
+.closeout{border:1px solid var(--line);border-radius:18px;padding:22px;background:linear-gradient(180deg,var(--panel),var(--bg-2))}
+.closeout h3{font-size:18px;font-weight:600;display:flex;align-items:center;gap:10px}
+.closeout .sh{font-size:12px;color:var(--muted);margin:4px 0 17px;line-height:1.5}
+.task{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-top:1px solid var(--line)}
+.task:first-of-type{border-top:0}
+.task .tk{flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:var(--brand);margin-top:6px;box-shadow:0 0 0 4px rgba(47,107,255,.14)}
+.task b{font-weight:600;font-size:14px;color:var(--ink);display:block}
+.task s{text-decoration:none;color:var(--muted);font-size:12px;display:block;margin-top:2px;line-height:1.45}
+.spine{width:1px;background:linear-gradient(transparent,var(--line-strong),transparent);justify-self:center}
+.focus{grid-column:1 / -1;margin-top:20px;text-align:center;font-family:"Sora";font-weight:600;
+  font-size:clamp(16px,2.3vw,26px);line-height:1.3;color:var(--ink)}
+.focus span{color:var(--cyan)}
+.focus small{display:block;font-family:"Inter";font-weight:450;font-size:13.5px;color:var(--muted);margin-top:9px;letter-spacing:0}
+
+/* ---------- slide 7 : resources ---------- */
+.res-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(20px,3vw,40px)}
+.res-col h3{font-size:14px;color:var(--muted);font-weight:500;font-family:"Sora";letter-spacing:.04em;margin-bottom:12px}
+.ticket{display:flex;align-items:center;gap:14px;text-decoration:none;border:1px solid var(--line);border-radius:12px;
+  padding:13px 15px;background:var(--panel);margin-bottom:9px;transition:border-color .2s,background .2s,transform .12s}
+.ticket:hover{border-color:var(--brand);background:rgba(47,107,255,.09);transform:translateX(3px)}
+.ticket .key{font-family:"Sora";font-weight:600;font-size:12.5px;color:#06101f;background:var(--grad);
+  border-radius:7px;padding:5px 9px;flex:0 0 auto;letter-spacing:.01em}
+.ticket .tt{flex:1 1 auto;min-width:0}
+.ticket .tt b{font-weight:550;font-size:14px;color:var(--ink);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ticket .tt s{text-decoration:none;color:var(--muted);font-size:11.5px}
+.ticket .go{color:var(--muted);font-size:15px;flex:0 0 auto}
+.ticket:hover .go{color:var(--cyan)}
+.res-foot{margin-top:18px;font-size:12px;color:var(--muted-2);text-align:center}
+
+/* ---------- responsive ---------- */
+@media (max-width:860px){
+  .promise-grid{grid-template-columns:1fr;gap:26px}
+  .cd{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+  .cd .cap{margin-top:0}
+  .gates{grid-template-columns:repeat(2,1fr)}
+  .dtop,.two,.res-grid{grid-template-columns:1fr}
+  .closeouts{grid-template-columns:1fr}
+  .spine{display:none}
+  .slide{justify-content:flex-start}
+  .m-head{flex-direction:column;align-items:flex-start}
+}
+@media (max-width:560px){
+  .gates{grid-template-columns:1fr}
+  .matrix{font-size:11px}
+  .src .nm{font-size:11.5px}
+  .step .bar{width:20px}.step.on .bar{width:28px}
+  .tally .t b{font-size:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:opacity .2s linear!important}
+  .slide{transition:opacity .2s linear!important}
+  .gauge .val{transition:none!important}
+}
+</style>
+</head>
+<body>
+<div id="fit">
+<div class="deck">
+
+  <div class="topbar">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 34 24" fill="none" aria-hidden="true">
+        <path d="M2 22 12 2h7L9 22H2Z" fill="url(#g1)"/>
+        <path d="M15 22 25 2h7L22 22h-7Z" fill="url(#g1)" opacity=".62"/>
+        <defs><linearGradient id="g1" x1="0" y1="0" x2="34" y2="24" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#2f6bff"/><stop offset="1" stop-color="#36d1ff"/></linearGradient></defs>
+      </svg>
+      <b>Platform&nbsp;2026 <span>State of Play</span></b>
+    </div>
+    <div class="count" aria-live="off">
+      <span class="dot"></span>
+      <span class="n" id="cdDays">—</span>
+      <span class="lbl">days to the 15 Dec promise</span>
+    </div>
+  </div>
+
+  <div class="stage" id="stage">
+
+    <!-- 1 · PROMISE -->
+    <section class="slide" data-name="Promise">
+      <div class="wrap promise">
+        <div class="promise-grid">
+          <div>
+            <span class="kicker"><i></i>The commitment we made</span>
+            <h1 style="margin-top:14px">Our Team&rsquo;s<br>Promise</h1>
+            <div class="quote">
+              By 15 December, we have <em>(a)</em> an easily articulated and demonstrated definition of what &lsquo;platform&rsquo; is, with three compelling examples of integration between all three solution lines, each with executive approval and a launch customer &mdash; and <em>(b)</em> three promoters who are live, plus a further seven (<em>ten in total</em>) customer-validated integrations available.
+            </div>
+            <div class="tests">
+              <span class="test"><b>01</b>Definition, demonstrated</span>
+              <span class="test"><b>02</b>Three flagship integrations</span>
+              <span class="test"><b>03</b>Three live promoters</span>
+              <span class="test"><b>04</b>Ten validated integrations</span>
+            </div>
+          </div>
+          <div class="cd">
+            <div class="big" id="cdBig">—</div>
+            <div class="cap" id="cdCap">days remain to close every clause of the promise.</div>
+            <div class="date">Status as at 2 November 2026<s>Six weeks on the clock</s></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 · SCORECARD -->
+    <section class="slide" data-name="Scorecard">
+      <div class="wrap">
+        <div class="head-row">
+          <div>
+            <span class="kicker"><i></i>Four clauses, four verdicts</span>
+            <h2 style="margin-top:12px">Where each gate stands</h2>
+          </div>
+        </div>
+        <div class="gates">
+          <div class="gate g-green">
+            <div class="g-ix">Gate 01</div><h3>Definition</h3>
+            <div class="gauge" style="--circ:276;--off:14"><svg width="96" height="96" viewBox="0 0 96 96"><circle class="trk" cx="48" cy="48" r="44" fill="none" stroke-width="7"/><circle class="val" cx="48" cy="48" r="44" fill="none" stroke-width="7"/></svg><div class="mid"><b>DONE</b></div></div>
+            <p>Articulated and demonstrated. Proven at Connections.</p>
+          </div>
+          <div class="gate g-green">
+            <div class="g-ix">Gate 02</div><h3>Flagships</h3>
+            <div class="gauge" style="--circ:276;--off:48"><svg width="96" height="96" viewBox="0 0 96 96"><circle class="trk" cx="48" cy="48" r="44" fill="none" stroke-width="7"/><circle class="val" cx="48" cy="48" r="44" fill="none" stroke-width="7"/></svg><div class="mid"><b>ON&nbsp;TRACK</b></div></div>
+            <p>&ldquo;Three compelling examples of integration between all three solution lines&rdquo; &mdash; built and approved.</p>
+          </div>
+          <div class="gate g-amber">
+            <div class="g-ix">Gate 03</div><h3>Live promoters</h3>
+            <div class="gauge" style="--circ:276;--off:184"><svg width="96" height="96" viewBox="0 0 96 96"><circle class="trk" cx="48" cy="48" r="44" fill="none" stroke-width="7"/><circle class="val" cx="48" cy="48" r="44" fill="none" stroke-width="7"/></svg><div class="mid"><b>1&nbsp;OF&nbsp;3</b></div></div>
+            <p>One live; two landing end-November; a buffer behind.</p>
+          </div>
+          <div class="gate g-amber">
+            <div class="g-ix">Gate 04</div><h3>The ten</h3>
+            <div class="gauge" style="--circ:276;--off:110"><svg width="96" height="96" viewBox="0 0 96 96"><circle class="trk" cx="48" cy="48" r="44" fill="none" stroke-width="7"/><circle class="val" cx="48" cy="48" r="44" fill="none" stroke-width="7"/></svg><div class="mid"><b>IN PROGRESS</b></div></div>
+            <p>Evidence is strong; the count rides on the automation build.</p>
+          </div>
+        </div>
+        <div class="strip">
+          <span><b>Define</b> and <b>Prove</b> are done. The promise now comes down to the next six weeks &mdash; <span class="em">three customer go-lives</span> and <span class="em">automation throughput</span>.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 · DEFINITION -->
+    <section class="slide" data-name="Definition">
+      <div class="wrap">
+        <span class="kicker"><i></i>Gate 01 &mdash; the definition, demonstrated</span>
+        <div class="dtop" style="margin-top:16px">
+          <div class="chain">
+            <div class="cstep"><div class="node">D</div><div><h3>Detect</h3><p>The operation surfaces a signal &mdash; a report, a finding, a regulatory change.</p></div><span class="cline"></span></div>
+            <div class="cstep"><div class="node">T</div><div><h3>Trigger</h3><p>That signal starts the right work automatically, across the right solution line.</p></div><span class="cline"></span></div>
+            <div class="cstep"><div class="node">O</div><div><h3>Orchestrate</h3><p>Content, training and safety move together &mdash; one change, one connected workflow.</p></div><span class="cline"></span></div>
+            <div class="cstep"><div class="node">P</div><div><h3>Prove</h3><p>Readiness and compliance are evidenced in real time. The Operational Performance Platform.</p></div></div>
+          </div>
+          <div class="proof">
+            <a class="player" href="https://youtu.be/YjJIn4-Ck_w" target="_blank" rel="noopener">
+              <span class="play"><svg width="22" height="24" viewBox="0 0 22 24" fill="#fff"><path d="M0 1.7v20.6a1 1 0 0 0 1.5.86l18-10.3a1 1 0 0 0 0-1.73l-18-10.3A1 1 0 0 0 0 1.7Z"/></svg></span>
+              <span class="tag">DTOP &mdash; the platform, demonstrated</span>
+            </a>
+            <p class="pt"><b>Gate 01 is not argued, it is shown.</b> The Connections 2026 film walks Detect&ndash;Trigger&ndash;Orchestrate&ndash;Prove end to end, embedded here as the proof artifact.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 · FLAGSHIPS + PROMOTERS -->
+    <section class="slide" data-name="Customers">
+      <div class="wrap">
+        <span class="kicker"><i></i>Gates 02 &amp; 03 &mdash; landing the customers</span>
+        <div class="two" style="margin-top:16px">
+          <div>
+            <div class="col-h">Three flagship integrations <s>built &amp; executive-approved</s></div>
+            <div class="flag"><span class="edge">CM&times;SM</span><div class="nm"><b>Regulation integration</b><s>PPM-15</s></div><span class="st live">LIVE</span></div>
+            <div class="flag"><span class="edge">TM&times;SM</span><div class="nm"><b>Unified mobile app</b><s>PPM-113</s></div><span class="st done">DONE</span></div>
+            <div class="flag"><span class="edge">CM&times;TM</span><div class="nm"><b>Training modules &harr; documents</b><s>PPM-80</s></div><span class="st done">DONE</span></div>
+            <p style="font-size:12.5px;color:var(--muted);line-height:1.55;margin-top:14px">
+              Live customers are counted on regulation integration only &mdash; with zero CM365/TM365 overlap, it is the one honest basis, and the allowance is agreed.</p>
+          </div>
+          <div>
+            <div class="col-h">Live promoters <s>three live by 15 December</s></div>
+            <div class="ladder">
+              <div class="rung l1"><span class="pip"></span><span class="line"></span><div class="who"><b>Sunclass</b><s>Live &middot; presented twice at Connections &middot; full advocate</s></div><div class="when">Live now</div></div>
+              <div class="rung l2"><span class="pip"></span><span class="line"></span><div class="who"><b>Icelandair</b><s>In production &middot; go-live gated on IOSA audit</s></div><div class="when">End Nov</div></div>
+              <div class="rung l3"><span class="pip"></span><span class="line"></span><div class="who"><b>SAS</b><s>Agreed early adopter &middot; planning underway</s></div><div class="when">End Nov</div></div>
+              <div class="rung"><span class="pip"></span><span class="line"></span><div class="who"><b>Alliance Airlines</b><s>Early access offered &middot; commercials in progress</s></div><div class="when">Buffer</div></div>
+            </div>
+            <div class="pipeline"><b>Building behind it &mdash; 2027 pipeline:</b> Air Atlanta Icelandic, Aegean, Transavia France, Virgin Australia and Aer Lingus, all engaged with commercial teams.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 · STATUS OF THE TEN -->
+    <section class="slide" data-name="The ten">
+      <div class="wrap">
+        <div class="m-head">
+          <div>
+            <span class="kicker"><i></i>Gate 04 &mdash; the ten</span>
+            <h2 style="margin-top:10px">Ten promised. Thirteen in reach.</h2>
+            <p class="sub">Four delivered, the rest in flight &mdash; with headroom to close beyond ten before year-end.</p>
+          </div>
+          <div class="tally">
+            <div class="t"><b style="color:var(--green)">4</b><s>DELIVERED</s></div>
+            <div class="t"><b style="color:var(--amber)">6</b><s>IN&nbsp;PROGRESS</s></div>
+            <div class="t count"><b>14+</b><s>IN&nbsp;REACH</s></div>
+          </div>
+        </div>
+
+        <div class="track" aria-hidden="true">
+          <div class="seg d"></div>
+          <div class="seg p"></div>
+          <div class="seg s"></div>
+          <div class="marker"><b>THE PROMISE &middot; 10</b></div>
+        </div>
+        <div class="lanes">
+          <div class="lane delivered">
+            <div class="lane-h">Delivered<span class="n">4</span></div>
+            <div class="it"><span class="mk"></span><div class="xt"><b>Regulation integration</b><s>CM&times;SM &middot; PPM-15</s></div><span class="tg">LIVE</span></div>
+            <div class="it"><span class="mk"></span><div class="xt"><b>Unified mobile app</b><s>TM&times;SM &middot; PPM-113</s></div><span class="tg">DONE</span></div>
+            <div class="it"><span class="mk"></span><div class="xt"><b>Training &harr; documents</b><s>CM&times;TM &middot; PPM-80</s></div><span class="tg">DONE</span></div>
+            <div class="it"><span class="mk"></span><div class="xt"><b>Forms &harr; TM365</b><s>Forms&times;TM &middot; PPM-42</s></div><span class="tg">DONE</span></div>
+          </div>
+          <div class="lane inprog">
+            <div class="lane-h">In progress<span class="n">6</span></div>
+            <div class="it wip"><span class="mk"></span><div class="xt"><b>Audit findings &harr; documents</b><s>SM&times;CM &middot; PPM-125</s></div><span class="tg">BUILD</span></div>
+            <div class="it wip"><span class="mk"></span><div class="xt"><b>Safety report &rarr; notify</b><s>PPM-123</s></div><span class="tg">BUILD</span></div>
+            <div class="it wip"><span class="mk"></span><div class="xt"><b>Audit &rarr; notify</b><s>PPM-123</s></div><span class="tg">BUILD</span></div>
+            <div class="it wip"><span class="mk"></span><div class="xt"><b>Audit finding &rarr; notify</b><s>PPM-123</s></div><span class="tg">BUILD</span></div>
+            <div class="it wip"><span class="mk"></span><div class="xt"><b>Regulation revision &rarr; notify</b><s>PPM-123</s></div><span class="tg">BUILD</span></div>
+            <div class="it wip"><span class="mk"></span><div class="xt"><b>Scheduled audit &rarr; reminder</b><s>PPM-124</s></div><span class="tg">BUILD</span></div>
+          </div>
+          <div class="lane stretch">
+            <div class="lane-h">Planned &mdash; stretch<span class="n">4</span></div>
+            <div class="it"><span class="mk"></span><div class="xt"><b>Document revision &rarr; notify</b><s>PPM-123</s></div><span class="tg">NEXT</span></div>
+            <div class="it"><span class="mk"></span><div class="xt"><b>Form submitted &rarr; notify</b><s>PPM-123</s></div><span class="tg">NEXT</span></div>
+            <div class="it"><span class="mk"></span><div class="xt"><b>Document review-due &rarr; reminder</b><s>PPM-124</s></div><span class="tg">NEXT</span></div>
+            <div class="it"><span class="mk"></span><div class="xt"><b>SafetyReporter</b><s>SM mobile &middot; PPM-120</s></div><span class="tg">NEXT</span></div>
+          </div>
+        </div>
+
+        <div class="board-note"><b>One automation engine</b> (PPM-123 / PPM-124) drives several of these rows &mdash; each new source connected lifts the total past ten. PPM-115 held in reserve.</div>
+      </div>
+    </section>
+
+    <!-- 6 · THE LIVE LIST -->
+    <section class="slide" data-name="The live list">
+      <div class="wrap">
+        <span class="kicker"><i></i>What it rides on</span>
+        <h2 style="font-size:clamp(25px,3.6vw,42px);font-weight:600;margin:12px 0 0">The live list</h2>
+        <p style="color:var(--muted);font-size:14px;line-height:1.55;margin:8px 0 0;max-width:62ch">The work in flight that closes the promise before 15 December &mdash; every item within our control.</p>
+        <div class="live">
+          <div class="live-row"><span class="ind"></span><div class="mn"><b>Icelandair &mdash; go live</b><s>Clear the IOSA audit, then flip to live.</s></div><span class="tag">GO-LIVE</span></div>
+          <div class="live-row"><span class="ind"></span><div class="mn"><b>SAS &mdash; go live</b><s>Finalise planning, configure and launch.</s></div><span class="tag">GO-LIVE</span></div>
+          <div class="live-row"><span class="ind"></span><div class="mn"><b>Alliance Airlines &mdash; go live</b><s>Close commercials to bank the buffer.</s></div><span class="tag">GO-LIVE</span></div>
+          <div class="live-row"><span class="ind"></span><div class="mn"><b>Audit findings &harr; documents</b><s>Land PPM-125 &mdash; the fifth integration.</s></div><span class="tag">IN&nbsp;PROGRESS</span></div>
+          <div class="live-row"><span class="ind"></span><div class="mn"><b>Automation engine</b><s>Build the notifications and reminders (PPM-123 / PPM-124) &mdash; every source connected adds another.</s></div><span class="tag">IN&nbsp;PROGRESS</span></div>
+        </div>
+        <div class="live-close">Define and prove are done. What closes the promise is on this list &mdash; <span>and all of it is within our control.</span></div>
+      </div>
+    </section>
+
+    <!-- 7 · RESOURCES -->
+    <section class="slide" data-name="Resources">
+      <div class="wrap">
+        <span class="kicker"><i></i>Resource index &mdash; the work behind every claim</span>
+        <div class="res-grid" style="margin-top:18px">
+          <div class="res-col">
+            <h3>Inter-line integrations</h3>
+            <a class="ticket" href="https://comply365.atlassian.net/browse/PPM-15" target="_blank" rel="noopener"><span class="key">PPM-15</span><span class="tt"><b>Regulation integration</b><s>CM365 &harr; SM365 &middot; live</s></span><span class="go">&#8599;</span></a>
+            <a class="ticket" href="https://comply365.atlassian.net/browse/PPM-113" target="_blank" rel="noopener"><span class="key">PPM-113</span><span class="tt"><b>Unified mobile app</b><s>Training screens &middot; done</s></span><span class="go">&#8599;</span></a>
+            <a class="ticket" href="https://comply365.atlassian.net/browse/PPM-80" target="_blank" rel="noopener"><span class="key">PPM-80</span><span class="tt"><b>Training modules &harr; documents</b><s>CM365 &harr; TM365 &middot; done</s></span><span class="go">&#8599;</span></a>
+            <a class="ticket" href="https://comply365.atlassian.net/browse/PPM-42" target="_blank" rel="noopener"><span class="key">PPM-42</span><span class="tt"><b>Forms &harr; TM365 (Training Cancellation)</b><s>Automation concept &middot; done</s></span><span class="go">&#8599;</span></a>
+            <a class="ticket" href="https://comply365.atlassian.net/browse/PPM-125" target="_blank" rel="noopener"><span class="key">PPM-125</span><span class="tt"><b>Audit findings &harr; documents</b><s>SM365 &harr; CM365 &middot; in progress</s></span><span class="go">&#8599;</span></a>
+          </div>
+          <div class="res-col">
+            <h3>Automation engine &amp; buffer</h3>
+            <a class="ticket" href="https://comply365.atlassian.net/browse/PPM-123" target="_blank" rel="noopener"><span class="key">PPM-123</span><span class="tt"><b>Advanced notifications</b><s>Prismatic &middot; source &times; channel</s></span><span class="go">&#8599;</span></a>
+            <a class="ticket" href="https://comply365.atlassian.net/browse/PPM-124" target="_blank" rel="noopener"><span class="key">PPM-124</span><span class="tt"><b>Advanced reminders</b><s>Prismatic &middot; due-date &rarr; calendar</s></span><span class="go">&#8599;</span></a>
+            <a class="ticket" href="https://comply365.atlassian.net/browse/PPM-42" target="_blank" rel="noopener"><span class="key">PPM-42</span><span class="tt"><b>Platform automation &amp; integration</b><s>The engine concept</s></span><span class="go">&#8599;</span></a>
+            <a class="ticket" href="https://comply365.atlassian.net/browse/PPM-115" target="_blank" rel="noopener"><span class="key">PPM-115</span><span class="tt"><b>Standardise UI fonts &amp; colours</b><s>Band B buffer &middot; not counted</s></span><span class="go">&#8599;</span></a>
+          </div>
+        </div>
+        <div class="res-foot">Links open in Jira &mdash; comply365.atlassian.net/browse/PPM-XX</div>
+      </div>
+    </section>
+
+  </div><!-- /stage -->
+
+  <div class="rail">
+    <div class="steps" id="steps"></div>
+    <div class="arrows">
+      <button id="fs" aria-label="Toggle full screen" title="Full screen (F)"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 6V2h4M14 6V2h-4M2 10v4h4M14 10v4h-4"/></svg></button>
+      <button id="prev" aria-label="Previous slide">&#8592;</button>
+      <button id="next" aria-label="Next slide">&#8594;</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var steps  = document.getElementById('steps');
+  var prevB  = document.getElementById('prev');
+  var nextB  = document.getElementById('next');
+  var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var i = 0, fireTimers = [];
+
+  // build step rail
+  slides.forEach(function(s,ix){
+    var b = document.createElement('button');
+    b.className = 'step';
+    b.innerHTML = '<span class="bar"></span><span class="t">'+ (s.dataset.name||('0'+(ix+1))) +'</span>';
+    b.addEventListener('click', function(){ go(ix); });
+    steps.appendChild(b);
+  });
+  var stepEls = Array.prototype.slice.call(steps.children);
+
+  function go(n){
+    n = Math.max(0, Math.min(slides.length-1, n));
+    if(n===i && slides[i].classList.contains('active')) return;
+    slides[i].classList.remove('active');
+    i = n;
+    slides[i].classList.add('active');
+    slides[i].scrollTop = 0;
+    stepEls.forEach(function(e,x){ e.classList.toggle('on', x===i); });
+    prevB.disabled = (i===0);
+    nextB.disabled = (i===slides.length-1);
+    if(slides[i].dataset.name === 'The ten') scheduleFire(600);
+  }
+
+  function clearFire(){ fireTimers.forEach(clearTimeout); fireTimers = []; }
+  function scheduleFire(delay){
+    clearFire();
+    var rows = slides[i].querySelectorAll('.row[data-fire]');
+    rows.forEach(function(r){ r.classList.remove('on'); });
+    if(reduce){ rows.forEach(function(r){ r.classList.add('on'); }); return; }
+    rows.forEach(function(r,x){
+      fireTimers.push(setTimeout(function(){ r.classList.add('on'); }, (delay||0) + x*230));
+    });
+  }
+
+  // manual re-fire
+  var fireBtn = document.getElementById('fireBtn');
+  if(fireBtn) fireBtn.addEventListener('click', function(){
+    var rows = document.querySelectorAll('.row[data-fire]');
+    rows.forEach(function(r){ r.classList.remove('on'); });
+    void document.getElementById('matrix').offsetWidth;
+    scheduleFire(80);
+  });
+  // hover a source row to light it
+  document.querySelectorAll('.row[data-fire]').forEach(function(r){
+    r.addEventListener('mouseenter', function(){ r.classList.add('on'); });
+  });
+
+  // fullscreen presenting
+  function toggleFull(){
+    try{
+      var fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+      if(!fsEl){ var el=document.documentElement, rq=el.requestFullscreen||el.webkitRequestFullscreen; if(rq) rq.call(el); }
+      else{ var ex=document.exitFullscreen||document.webkitExitFullscreen; if(ex) ex.call(document); }
+    }catch(e){}
+  }
+  var fsBtn=document.getElementById('fs');
+  if(fsBtn) fsBtn.addEventListener('click', toggleFull);
+
+  // keyboard
+  document.addEventListener('keydown', function(e){
+    if(e.key==='f' || e.key==='F'){ e.preventDefault(); toggleFull(); return; }
+    if(e.key==='ArrowRight' || e.key==='PageDown' || e.key===' '){ e.preventDefault(); go(i+1); }
+    else if(e.key==='ArrowLeft' || e.key==='PageUp'){ e.preventDefault(); go(i-1); }
+    else if(e.key==='Home'){ go(0); }
+    else if(e.key==='End'){ go(slides.length-1); }
+  });
+  prevB.addEventListener('click', function(){ go(i-1); });
+  nextB.addEventListener('click', function(){ go(i+1); });
+
+  // swipe
+  var x0=null;
+  document.getElementById('stage').addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, {passive:true});
+  document.getElementById('stage').addEventListener('touchend', function(e){
+    if(x0===null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    if(Math.abs(dx)>60){ go(i + (dx<0?1:-1)); }
+    x0=null;
+  }, {passive:true});
+
+  // live countdown to 15 Dec 2026
+  function countdown(){
+    var target = new Date('2026-12-15T00:00:00');
+    var now = new Date();
+    var d = Math.ceil((target - now) / 86400000);
+    if(d<0) d = 0;
+    document.getElementById('cdDays').textContent = d;
+    document.getElementById('cdBig').textContent = d;
+    document.getElementById('cdCap').textContent = d===0
+      ? 'the deadline is here — every clause is called.'
+      : 'days remain to close every clause of the promise.';
+  }
+  countdown();
+
+  // scale-to-fit presenting canvas (fits any screen size / browser zoom)
+  var deck=document.querySelector('.deck');
+  function fitDeck(){
+    var vw=window.innerWidth, vh=window.innerHeight;
+    if(vw<=860){ document.body.classList.add('nofit'); deck.style.removeProperty('--s'); }
+    else{ document.body.classList.remove('nofit'); deck.style.setProperty('--s', Math.min(vw/1280, vh/720)); }
+  }
+  window.addEventListener('resize', fitDeck);
+  window.addEventListener('orientationchange', fitDeck);
+  document.addEventListener('fullscreenchange', fitDeck);
+  document.addEventListener('webkitfullscreenchange', fitDeck);
+  fitDeck();
+
+  go(0);
+})();
+</script>
+</body>
+</html>
