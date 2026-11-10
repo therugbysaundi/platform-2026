@@ -210,7 +210,7 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
 .rung{display:grid;grid-template-columns:20px 1fr auto;gap:13px;align-items:center;padding:11px 0;position:relative}
 .rung .pip{width:13px;height:13px;border-radius:50%;border:2px solid var(--muted-2);background:var(--bg);z-index:2;justify-self:center}
 .rung.l1 .pip{border-color:var(--green);background:var(--green);box-shadow:0 0 0 5px rgba(46,211,154,.16)}
-.rung.l2 .pip,.rung.l3 .pip{border-color:var(--amber);background:rgba(255,180,61,.25)}
+.rung.l2 .pip,.rung.l3 .pip,.rung.l4 .pip{border-color:var(--amber);background:rgba(255,180,61,.25)}
 .rung .line{position:absolute;left:12.5px;top:22px;bottom:-11px;width:2px;background:var(--line-strong);z-index:1}
 .rung:last-child .line{display:none}
 .rung .who b{font-weight:600;font-size:14.5px;color:var(--ink)}
@@ -299,15 +299,16 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
 .slide[data-name="The ten"]{padding-top:14px;padding-bottom:14px;justify-content:flex-start}
 @media (max-width:860px){.lanes{grid-template-columns:1fr}.track{margin-top:34px}.scale .reach{margin-left:0;flex-basis:100%}}
 /* live list (slide 6) */
-.live{display:flex;flex-direction:column;gap:10px;margin-top:18px}
-.live-row{display:flex;align-items:center;gap:16px;border:1px solid var(--line);border-radius:14px;padding:15px 18px;background:linear-gradient(180deg,var(--panel),var(--bg-2))}
+.live{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.live-row{display:flex;align-items:center;gap:16px;border:1px solid var(--line);border-radius:14px;padding:10px 18px;background:linear-gradient(180deg,var(--panel),var(--bg-2))}
 .live-row .ind{flex:0 0 auto;width:10px;height:10px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 4px rgba(255,180,61,.14);animation:pulse 1.8s ease-in-out infinite}
 .live-row .mn{flex:1 1 auto;min-width:0}
 .live-row .mn b{font-family:"Sora";font-weight:600;font-size:15px;color:var(--ink);display:block}
 .live-row .mn s{text-decoration:none;color:var(--muted);font-size:12.5px;display:block;margin-top:2px;line-height:1.45}
 .live-row .tag{flex:0 0 auto;font-family:"Sora";font-weight:600;font-size:10.5px;letter-spacing:.06em;color:var(--ink-dim);border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px;white-space:nowrap}
-.live-close{margin-top:20px;text-align:center;font-family:"Sora";font-weight:600;font-size:clamp(15px,2vw,22px);line-height:1.35;color:var(--ink)}
+.live-close{margin-top:14px;text-align:center;font-family:"Sora";font-weight:600;font-size:clamp(15px,2vw,22px);line-height:1.35;color:var(--ink)}
 .live-close span{color:var(--cyan)}
+.slide[data-name="The live list"]{padding-top:14px;padding-bottom:14px;justify-content:flex-start}
 
 /* ---------- slide 6 : closeouts ---------- */
 .closeouts{display:grid;grid-template-columns:1fr auto 1fr;gap:clamp(16px,2.6vw,36px);align-items:stretch}
@@ -409,7 +410,7 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
           <div class="cd">
             <div class="big" id="cdBig">—</div>
             <div class="cap" id="cdCap">days remain to close every clause of the promise.</div>
-            <div class="date">Status as at 2 November 2026<s>Six weeks on the clock</s></div>
+            <div class="date">Status as at 10 November 2026<s>Five weeks on the clock</s></div>
           </div>
         </div>
       </div>
@@ -427,18 +428,18 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
         <div class="gates">
           <div class="gate g-green">
             <div class="g-ix">Gate 01</div><h3>Definition</h3>
-            <div class="gauge" style="--circ:276;--off:14"><svg width="96" height="96" viewBox="0 0 96 96"><circle class="trk" cx="48" cy="48" r="44" fill="none" stroke-width="7"/><circle class="val" cx="48" cy="48" r="44" fill="none" stroke-width="7"/></svg><div class="mid"><b>DONE</b></div></div>
+            <div class="gauge" style="--circ:276;--off:0"><svg width="96" height="96" viewBox="0 0 96 96"><circle class="trk" cx="48" cy="48" r="44" fill="none" stroke-width="7"/><circle class="val" cx="48" cy="48" r="44" fill="none" stroke-width="7"/></svg><div class="mid"><b>DONE</b></div></div>
             <p>Articulated and demonstrated. Proven at Connections.</p>
           </div>
           <div class="gate g-green">
             <div class="g-ix">Gate 02</div><h3>Flagships</h3>
-            <div class="gauge" style="--circ:276;--off:48"><svg width="96" height="96" viewBox="0 0 96 96"><circle class="trk" cx="48" cy="48" r="44" fill="none" stroke-width="7"/><circle class="val" cx="48" cy="48" r="44" fill="none" stroke-width="7"/></svg><div class="mid"><b>ON&nbsp;TRACK</b></div></div>
+            <div class="gauge" style="--circ:276;--off:0"><svg width="96" height="96" viewBox="0 0 96 96"><circle class="trk" cx="48" cy="48" r="44" fill="none" stroke-width="7"/><circle class="val" cx="48" cy="48" r="44" fill="none" stroke-width="7"/></svg><div class="mid"><b>DONE</b></div></div>
             <p>&ldquo;Three compelling examples of integration between all three solution lines&rdquo; &mdash; built and approved.</p>
           </div>
           <div class="gate g-amber">
             <div class="g-ix">Gate 03</div><h3>Live promoters</h3>
             <div class="gauge" style="--circ:276;--off:184"><svg width="96" height="96" viewBox="0 0 96 96"><circle class="trk" cx="48" cy="48" r="44" fill="none" stroke-width="7"/><circle class="val" cx="48" cy="48" r="44" fill="none" stroke-width="7"/></svg><div class="mid"><b>1&nbsp;OF&nbsp;3</b></div></div>
-            <p>One live; two landing end-November; a buffer behind.</p>
+            <p>One live; three production-ready, landing end-November.</p>
           </div>
           <div class="gate g-amber">
             <div class="g-ix">Gate 04</div><h3>The ten</h3>
@@ -447,7 +448,7 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
           </div>
         </div>
         <div class="strip">
-          <span><b>Define</b> and <b>Prove</b> are done. The promise now comes down to the next six weeks &mdash; <span class="em">three customer go-lives</span> and <span class="em">automation throughput</span>.</span>
+          <span><b>Define</b> and <b>Prove</b> are done. The promise now comes down to the next five weeks &mdash; <span class="em">three customer go-lives</span> and <span class="em">automation throughput</span>.</span>
         </div>
       </div>
     </section>
@@ -464,10 +465,10 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
             <div class="cstep"><div class="node">P</div><div><h3>Prove</h3><p>Readiness and compliance are evidenced in real time. The Operational Performance Platform.</p></div></div>
           </div>
           <div class="proof">
-            <a class="player" href="https://youtu.be/YjJIn4-Ck_w" target="_blank" rel="noopener">
+            <button class="player" id="playBtn" type="button" aria-label="Play the DTOP film">
               <span class="play"><svg width="22" height="24" viewBox="0 0 22 24" fill="#fff"><path d="M0 1.7v20.6a1 1 0 0 0 1.5.86l18-10.3a1 1 0 0 0 0-1.73l-18-10.3A1 1 0 0 0 0 1.7Z"/></svg></span>
               <span class="tag">DTOP &mdash; the platform, demonstrated</span>
-            </a>
+            </button>
             <p class="pt"><b>Gate 01 is not argued, it is shown.</b> The Connections 2026 film walks Detect&ndash;Trigger&ndash;Orchestrate&ndash;Prove end to end, embedded here as the proof artifact.</p>
           </div>
         </div>
@@ -491,9 +492,9 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
             <div class="col-h">Live promoters <s>three live by 15 December</s></div>
             <div class="ladder">
               <div class="rung l1"><span class="pip"></span><span class="line"></span><div class="who"><b>Sunclass</b><s>Live &middot; presented twice at Connections &middot; full advocate</s></div><div class="when">Live now</div></div>
-              <div class="rung l2"><span class="pip"></span><span class="line"></span><div class="who"><b>Icelandair</b><s>In production &middot; go-live gated on IOSA audit</s></div><div class="when">End Nov</div></div>
-              <div class="rung l3"><span class="pip"></span><span class="line"></span><div class="who"><b>SAS</b><s>Agreed early adopter &middot; planning underway</s></div><div class="when">End Nov</div></div>
-              <div class="rung"><span class="pip"></span><span class="line"></span><div class="who"><b>Alliance Airlines</b><s>Early access offered &middot; commercials in progress</s></div><div class="when">Buffer</div></div>
+              <div class="rung l2"><span class="pip"></span><span class="line"></span><div class="who"><b>Icelandair</b><s>Live in production &middot; rollout pending team availability for training (post-IOSA)</s></div><div class="when">End Nov</div></div>
+              <div class="rung l3"><span class="pip"></span><span class="line"></span><div class="who"><b>SAS</b><s>Configured &amp; ready in production &middot; rollout pending team availability</s></div><div class="when">End Nov</div></div>
+              <div class="rung l4"><span class="pip"></span><span class="line"></span><div class="who"><b>Alliance Airlines</b><s>Ready for implementation &middot; in configuration, planning rollout</s></div><div class="when">End Nov</div></div>
             </div>
             <div class="pipeline"><b>Building behind it &mdash; 2027 pipeline:</b> Air Atlanta Icelandic, Aegean, Transavia France, Virgin Australia and Aer Lingus, all engaged with commercial teams.</div>
           </div>
@@ -533,17 +534,17 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
           </div>
           <div class="lane inprog">
             <div class="lane-h">In progress<span class="n">6</span></div>
-            <div class="it wip"><span class="mk"></span><div class="xt"><b>Audit findings &harr; documents</b><s>SM&times;CM &middot; PPM-125</s></div><span class="tg">BUILD</span></div>
-            <div class="it wip"><span class="mk"></span><div class="xt"><b>Safety report &rarr; notify</b><s>PPM-123</s></div><span class="tg">BUILD</span></div>
-            <div class="it wip"><span class="mk"></span><div class="xt"><b>Audit &rarr; notify</b><s>PPM-123</s></div><span class="tg">BUILD</span></div>
-            <div class="it wip"><span class="mk"></span><div class="xt"><b>Audit finding &rarr; notify</b><s>PPM-123</s></div><span class="tg">BUILD</span></div>
-            <div class="it wip"><span class="mk"></span><div class="xt"><b>Regulation revision &rarr; notify</b><s>PPM-123</s></div><span class="tg">BUILD</span></div>
-            <div class="it wip"><span class="mk"></span><div class="xt"><b>Scheduled audit &rarr; reminder</b><s>PPM-124</s></div><span class="tg">BUILD</span></div>
+            <div class="it wip"><span class="mk"></span><div class="xt"><b>Audit findings &harr; documents</b><s>SM&times;CM &middot; PPM-125</s></div><span class="tg">MID-NOV</span></div>
+            <div class="it wip"><span class="mk"></span><div class="xt"><b>Audit &rarr; notify</b><s>PPM-123</s></div><span class="tg">END-NOV</span></div>
+            <div class="it wip"><span class="mk"></span><div class="xt"><b>Audit finding &rarr; notify</b><s>PPM-123</s></div><span class="tg">END-NOV</span></div>
+            <div class="it wip"><span class="mk"></span><div class="xt"><b>Regulation revision &rarr; notify</b><s>PPM-123</s></div><span class="tg">END-NOV</span></div>
+            <div class="it wip"><span class="mk"></span><div class="xt"><b>Scheduled audit &rarr; reminder</b><s>PPM-124</s></div><span class="tg">END-NOV</span></div>
+            <div class="it wip"><span class="mk"></span><div class="xt"><b>Form submitted &rarr; notify</b><s>PPM-123</s></div><span class="tg">END-NOV</span></div>
           </div>
           <div class="lane stretch">
             <div class="lane-h">Planned &mdash; stretch<span class="n">4</span></div>
             <div class="it"><span class="mk"></span><div class="xt"><b>Document revision &rarr; notify</b><s>PPM-123</s></div><span class="tg">NEXT</span></div>
-            <div class="it"><span class="mk"></span><div class="xt"><b>Form submitted &rarr; notify</b><s>PPM-123</s></div><span class="tg">NEXT</span></div>
+            <div class="it"><span class="mk"></span><div class="xt"><b>Safety report &rarr; notify</b><s>PPM-123 &middot; de-prioritised</s></div><span class="tg">NEXT</span></div>
             <div class="it"><span class="mk"></span><div class="xt"><b>Document review-due &rarr; reminder</b><s>PPM-124</s></div><span class="tg">NEXT</span></div>
             <div class="it"><span class="mk"></span><div class="xt"><b>SafetyReporter</b><s>SM mobile &middot; PPM-120</s></div><span class="tg">NEXT</span></div>
           </div>
@@ -558,15 +559,15 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
       <div class="wrap">
         <span class="kicker"><i></i>What it rides on</span>
         <h2 style="font-size:clamp(25px,3.6vw,42px);font-weight:600;margin:12px 0 0">The live list</h2>
-        <p style="color:var(--muted);font-size:14px;line-height:1.55;margin:8px 0 0;max-width:62ch">The work in flight that closes the promise before 15 December &mdash; every item within our control.</p>
+        <p style="color:var(--muted);font-size:14px;line-height:1.55;margin:8px 0 0;max-width:62ch">The work in flight that closes the promise before 15 December &mdash; every item in build or ready to roll.</p>
         <div class="live">
-          <div class="live-row"><span class="ind"></span><div class="mn"><b>Icelandair &mdash; go live</b><s>Clear the IOSA audit, then flip to live.</s></div><span class="tag">GO-LIVE</span></div>
-          <div class="live-row"><span class="ind"></span><div class="mn"><b>SAS &mdash; go live</b><s>Finalise planning, configure and launch.</s></div><span class="tag">GO-LIVE</span></div>
-          <div class="live-row"><span class="ind"></span><div class="mn"><b>Alliance Airlines &mdash; go live</b><s>Close commercials to bank the buffer.</s></div><span class="tag">GO-LIVE</span></div>
-          <div class="live-row"><span class="ind"></span><div class="mn"><b>Audit findings &harr; documents</b><s>Land PPM-125 &mdash; the fifth integration.</s></div><span class="tag">IN&nbsp;PROGRESS</span></div>
-          <div class="live-row"><span class="ind"></span><div class="mn"><b>Automation engine</b><s>Build the notifications and reminders (PPM-123 / PPM-124) &mdash; every source connected adds another.</s></div><span class="tag">IN&nbsp;PROGRESS</span></div>
+          <div class="live-row"><span class="ind"></span><div class="mn"><b>Icelandair &mdash; go live</b><s>Live in production &mdash; complete implementation training once their team is free, post-IOSA.</s></div><span class="tag">GO-LIVE</span></div>
+          <div class="live-row"><span class="ind"></span><div class="mn"><b>SAS &mdash; go live</b><s>Configured and ready in production &mdash; roll out once their team is available.</s></div><span class="tag">GO-LIVE</span></div>
+          <div class="live-row"><span class="ind"></span><div class="mn"><b>Alliance Airlines &mdash; go live</b><s>In configuration &mdash; plan and complete the implementation.</s></div><span class="tag">GO-LIVE</span></div>
+          <div class="live-row"><span class="ind"></span><div class="mn"><b>Audit findings &harr; documents</b><s>Land PPM-125, the fifth integration &mdash; expected mid-November.</s></div><span class="tag">IN&nbsp;PROGRESS</span></div>
+          <div class="live-row"><span class="ind"></span><div class="mn"><b>Automation engine</b><s>Build the PPM-123 / PPM-124 notifications and reminders, landing end-November.</s></div><span class="tag">IN&nbsp;PROGRESS</span></div>
         </div>
-        <div class="live-close">Define and prove are done. What closes the promise is on this list &mdash; <span>and all of it is within our control.</span></div>
+        <div class="live-close">Define and prove are done. The build is ours to finish &mdash; <span>three customers configured and ready, waiting only on their teams to go live.</span></div>
       </div>
     </section>
 
@@ -606,6 +607,14 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
     </div>
   </div>
 </div>
+</div>
+
+<div class="vfs" id="vfs" aria-hidden="true">
+  <button class="vfs-close" id="vfsClose" aria-label="Close video">&times;</button>
+  <div class="vfs-inner">
+    <div class="vfs-frame" id="vfsFrame"></div>
+    <a class="vfs-fallback" href="https://youtu.be/YjJIn4-Ck_w" target="_blank" rel="noopener">Not loading? Open on YouTube</a>
+  </div>
 </div>
 
 <script>
@@ -675,8 +684,26 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
   var fsBtn=document.getElementById('fs');
   if(fsBtn) fsBtn.addEventListener('click', toggleFull);
 
+  // youtube modal
+  var VID='YjJIn4-Ck_w';
+  var vfs=document.getElementById('vfs');
+  var vfsFrame=document.getElementById('vfsFrame');
+  var playBtn=document.getElementById('playBtn');
+  var vfsClose=document.getElementById('vfsClose');
+  function openVid(){
+    vfsFrame.innerHTML='<iframe src="https://www.youtube.com/embed/'+VID+'?autoplay=1&rel=0&modestbranding=1" title="DTOP film" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>';
+    vfs.classList.add('open'); vfs.setAttribute('aria-hidden','false');
+  }
+  function closeVid(){
+    vfsFrame.innerHTML=''; vfs.classList.remove('open'); vfs.setAttribute('aria-hidden','true');
+  }
+  if(playBtn) playBtn.addEventListener('click', openVid);
+  if(vfsClose) vfsClose.addEventListener('click', closeVid);
+  if(vfs) vfs.addEventListener('click', function(e){ if(e.target===vfs) closeVid(); });
+
   // keyboard
   document.addEventListener('keydown', function(e){
+    if(vfs && vfs.classList.contains('open')){ if(e.key==='Escape'){ closeVid(); } return; }
     if(e.key==='f' || e.key==='F'){ e.preventDefault(); toggleFull(); return; }
     if(e.key==='ArrowRight' || e.key==='PageDown' || e.key===' '){ e.preventDefault(); go(i+1); }
     else if(e.key==='ArrowLeft' || e.key==='PageUp'){ e.preventDefault(); go(i-1); }
