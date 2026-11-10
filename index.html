@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
 <title>Platform 2026 — State of Play</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -365,9 +367,57 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
   .slide{transition:opacity .2s linear!important}
   .gauge .val{transition:none!important}
 }
+
+/* ---------- password gate ---------- */
+#gate{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;padding:24px;
+  background:
+    radial-gradient(1200px 680px at 82% -8%, rgba(47,107,255,.18), transparent 60%),
+    radial-gradient(900px 620px at 6% 108%, rgba(54,209,255,.10), transparent 55%),
+    var(--bg)}
+body.locked #gate{display:flex}
+body.locked #fit{display:none}
+.gate-card{width:min(100%,400px);border:1px solid var(--line-strong);border-radius:20px;padding:36px 32px 28px;
+  text-align:center;background:linear-gradient(180deg,rgba(13,22,39,.92),rgba(10,17,32,.94));
+  box-shadow:0 30px 90px rgba(0,0,0,.5)}
+.gate-card .gmark{width:42px;height:30px;margin:0 auto 18px;display:block;filter:drop-shadow(0 0 12px rgba(54,209,255,.4))}
+.gate-card h2{font-family:"Sora";font-weight:600;font-size:22px;color:var(--ink);letter-spacing:-.01em;margin:0}
+.gate-card .gsub{color:var(--muted);font-size:13px;margin:8px 0 24px;line-height:1.55}
+.gate-field{display:flex;flex-direction:column;gap:11px}
+#pwInput{width:100%;padding:13px 16px;border-radius:12px;border:1px solid var(--line-strong);
+  background:rgba(255,255,255,.04);color:var(--ink);font-family:"Inter";font-size:15px;outline:none;
+  text-align:center;letter-spacing:.04em;transition:border-color .2s,box-shadow .2s}
+#pwInput::placeholder{color:var(--muted-2);letter-spacing:0}
+#pwInput:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(47,107,255,.18)}
+#pwBtn{appearance:none;border:0;cursor:pointer;padding:13px 16px;border-radius:12px;
+  font-family:"Sora";font-weight:600;font-size:14px;color:#06101f;background:var(--grad);
+  box-shadow:0 8px 24px rgba(47,107,255,.3);transition:transform .1s}
+#pwBtn:active{transform:translateY(1px)}
+.gate-err{color:var(--red);font-size:12.5px;margin-top:14px;min-height:16px;opacity:0;transition:opacity .2s}
+.gate-err.show{opacity:1}
+.gate-card.shake{animation:shake .42s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.gate-foot{color:var(--muted-2);font-size:11px;margin-top:22px;letter-spacing:.06em;text-transform:uppercase}
 </style>
 </head>
-<body>
+<body class="locked">
+<div id="gate">
+  <div class="gate-card">
+    <svg class="gmark" viewBox="0 0 34 24" fill="none" aria-hidden="true">
+      <path d="M2 22 12 2h7L9 22H2Z" fill="url(#gg)"/>
+      <path d="M15 22 25 2h7L22 22h-7Z" fill="url(#gg)" opacity=".62"/>
+      <defs><linearGradient id="gg" x1="0" y1="0" x2="34" y2="24" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#2f6bff"/><stop offset="1" stop-color="#36d1ff"/></linearGradient></defs>
+    </svg>
+    <h2>Platform&nbsp;2026</h2>
+    <div class="gsub">State of Play &mdash; enter the access password to continue.</div>
+    <div class="gate-field">
+      <input id="pwInput" type="password" placeholder="Password" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Access password">
+      <button id="pwBtn" type="button">Enter</button>
+    </div>
+    <div class="gate-err" id="pwErr">Incorrect password &mdash; try again.</div>
+    <div class="gate-foot">Comply365 &middot; Internal</div>
+  </div>
+</div>
 <div id="fit">
 <div class="deck">
 
@@ -483,7 +533,7 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
           <div>
             <div class="col-h">Three flagship integrations <s>built &amp; executive-approved</s></div>
             <div class="flag"><span class="edge">CM&times;SM</span><div class="nm"><b>Regulation integration</b><s>PPM-15</s></div><span class="st live">LIVE</span></div>
-            <div class="flag"><span class="edge">TM&times;SM</span><div class="nm"><b>Unified mobile app</b><s>PPM-113</s></div><span class="st done">DONE</span></div>
+            <div class="flag"><span class="edge">TM&times;CM</span><div class="nm"><b>Unified mobile app</b><s>PPM-113</s></div><span class="st done">DONE</span></div>
             <div class="flag"><span class="edge">CM&times;TM</span><div class="nm"><b>Training modules &harr; documents</b><s>PPM-80</s></div><span class="st done">DONE</span></div>
             <p style="font-size:12.5px;color:var(--muted);line-height:1.55;margin-top:14px">
               Live customers are counted on regulation integration only &mdash; with zero CM365/TM365 overlap, it is the one honest basis, and the allowance is agreed.</p>
@@ -494,7 +544,7 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
               <div class="rung l1"><span class="pip"></span><span class="line"></span><div class="who"><b>Sunclass</b><s>Live &middot; presented twice at Connections &middot; full advocate</s></div><div class="when">Live now</div></div>
               <div class="rung l2"><span class="pip"></span><span class="line"></span><div class="who"><b>Icelandair</b><s>Live in production &middot; rollout pending team availability for training (post-IOSA)</s></div><div class="when">End Nov</div></div>
               <div class="rung l3"><span class="pip"></span><span class="line"></span><div class="who"><b>SAS</b><s>Configured &amp; ready in production &middot; rollout pending team availability</s></div><div class="when">End Nov</div></div>
-              <div class="rung l4"><span class="pip"></span><span class="line"></span><div class="who"><b>Alliance Airlines</b><s>Ready for implementation &middot; in configuration, planning rollout</s></div><div class="when">End Nov</div></div>
+              <div class="rung l4"><span class="pip"></span><span class="line"></span><div class="who"><b>Alliance Airlines</b><s>Fully configured in production &middot; rollout pending team availability</s></div><div class="when">End Nov</div></div>
             </div>
             <div class="pipeline"><b>Building behind it &mdash; 2027 pipeline:</b> Air Atlanta Icelandic, Aegean, Transavia France, Virgin Australia and Aer Lingus, all engaged with commercial teams.</div>
           </div>
@@ -528,7 +578,7 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
           <div class="lane delivered">
             <div class="lane-h">Delivered<span class="n">4</span></div>
             <div class="it"><span class="mk"></span><div class="xt"><b>Regulation integration</b><s>CM&times;SM &middot; PPM-15</s></div><span class="tg">LIVE</span></div>
-            <div class="it"><span class="mk"></span><div class="xt"><b>Unified mobile app</b><s>TM&times;SM &middot; PPM-113</s></div><span class="tg">DONE</span></div>
+            <div class="it"><span class="mk"></span><div class="xt"><b>Unified mobile app</b><s>TM&times;CM &middot; PPM-113</s></div><span class="tg">DONE</span></div>
             <div class="it"><span class="mk"></span><div class="xt"><b>Training &harr; documents</b><s>CM&times;TM &middot; PPM-80</s></div><span class="tg">DONE</span></div>
             <div class="it"><span class="mk"></span><div class="xt"><b>Forms &harr; TM365</b><s>Forms&times;TM &middot; PPM-42</s></div><span class="tg">DONE</span></div>
           </div>
@@ -563,7 +613,7 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
         <div class="live">
           <div class="live-row"><span class="ind"></span><div class="mn"><b>Icelandair &mdash; go live</b><s>Live in production &mdash; complete implementation training once their team is free, post-IOSA.</s></div><span class="tag">GO-LIVE</span></div>
           <div class="live-row"><span class="ind"></span><div class="mn"><b>SAS &mdash; go live</b><s>Configured and ready in production &mdash; roll out once their team is available.</s></div><span class="tag">GO-LIVE</span></div>
-          <div class="live-row"><span class="ind"></span><div class="mn"><b>Alliance Airlines &mdash; go live</b><s>In configuration &mdash; plan and complete the implementation.</s></div><span class="tag">GO-LIVE</span></div>
+          <div class="live-row"><span class="ind"></span><div class="mn"><b>Alliance Airlines &mdash; go live</b><s>Fully configured in production &mdash; roll out once their team is available.</s></div><span class="tag">GO-LIVE</span></div>
           <div class="live-row"><span class="ind"></span><div class="mn"><b>Audit findings &harr; documents</b><s>Land PPM-125, the fifth integration &mdash; expected mid-November.</s></div><span class="tag">IN&nbsp;PROGRESS</span></div>
           <div class="live-row"><span class="ind"></span><div class="mn"><b>Automation engine</b><s>Build the PPM-123 / PPM-124 notifications and reminders, landing end-November.</s></div><span class="tag">IN&nbsp;PROGRESS</span></div>
         </div>
@@ -703,6 +753,7 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
 
   // keyboard
   document.addEventListener('keydown', function(e){
+    if(document.body.classList.contains('locked')) return;
     if(vfs && vfs.classList.contains('open')){ if(e.key==='Escape'){ closeVid(); } return; }
     if(e.key==='f' || e.key==='F'){ e.preventDefault(); toggleFull(); return; }
     if(e.key==='ArrowRight' || e.key==='PageDown' || e.key===' '){ e.preventDefault(); go(i+1); }
@@ -750,7 +801,34 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
   document.addEventListener('webkitfullscreenchange', fitDeck);
   fitDeck();
 
-  go(0);
+  // password gate (client-side deterrent)
+  var PW='platform2026';
+  var gate=document.getElementById('gate');
+  var pwInput=document.getElementById('pwInput');
+  var pwBtn=document.getElementById('pwBtn');
+  var pwErr=document.getElementById('pwErr');
+  var pwCard=gate?gate.querySelector('.gate-card'):null;
+  function unlock(){
+    document.body.classList.remove('locked');
+    try{ sessionStorage.setItem('p26_ok','1'); }catch(e){}
+    fitDeck(); go(0);
+  }
+  function tryUnlock(){
+    if(pwInput && pwInput.value===PW){ unlock(); }
+    else{
+      if(pwErr) pwErr.classList.add('show');
+      if(pwCard){ pwCard.classList.remove('shake'); void pwCard.offsetWidth; pwCard.classList.add('shake'); }
+      if(pwInput){ pwInput.select(); }
+    }
+  }
+  var wasUnlocked=false;
+  try{ wasUnlocked = sessionStorage.getItem('p26_ok')==='1'; }catch(e){}
+  if(wasUnlocked){ unlock(); }
+  else{
+    if(pwBtn) pwBtn.addEventListener('click', tryUnlock);
+    if(pwInput) pwInput.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); tryUnlock(); } });
+    setTimeout(function(){ if(pwInput) pwInput.focus(); }, 80);
+  }
 })();
 </script>
 </body>
