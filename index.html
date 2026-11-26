@@ -222,7 +222,8 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
 .pipeline b{color:var(--ink-dim);font-weight:550;font-family:"Sora"}
 
 /* ---------- slide 5 : the machine ---------- */
-.m-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:10px}
+.m-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:6px}
+.sub5{color:var(--muted);font-size:13px;line-height:1.4;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .m-head h2{font-size:clamp(23px,3.3vw,38px);font-weight:600}
 .m-head .sub{color:var(--muted);font-size:13.5px;margin-top:5px;max-width:52ch;line-height:1.5}
 .tally{display:flex;gap:10px;flex:0 0 auto}
@@ -265,13 +266,13 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
 .engine-line{font-family:"Sora";font-weight:600;font-size:clamp(14px,1.7vw,18px);color:var(--ink);margin-top:4px}
 .engine-line span{color:var(--cyan)}
 /* status board (slide 5) */
-.track{position:relative;height:38px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line);margin:16px 0 30px}
+.track{position:relative;height:30px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--line);margin:10px 0 26px}
 .track .seg{position:absolute;top:0;bottom:0;width:0;transition:width .95s cubic-bezier(.2,.7,.2,1)}
 .slide.active .track .seg{width:var(--w)}
 .track .seg.d{left:0;--w:30.77%;background:linear-gradient(180deg,#34e0a6,#1fae7f);border-radius:11px 0 0 11px;transition-delay:.15s}
-.track .seg.p{left:30.77%;--w:38.46%;transition-delay:.55s;background:repeating-linear-gradient(135deg,#ffbe55,#ffbe55 11px,#f0a938 11px,#f0a938 22px)}
-.track .seg.s{left:69.23%;--w:30.77%;transition-delay:1s;background:rgba(111,151,255,.26);border-radius:0 11px 11px 0}
-.track .marker{position:absolute;top:-9px;bottom:-9px;left:76.92%;width:2px;background:var(--ink);z-index:4;opacity:0;transition:opacity .4s .95s}
+.track .seg.p{left:30.77%;--w:53.85%;transition-delay:.55s;background:repeating-linear-gradient(135deg,#ffbe55,#ffbe55 11px,#f0a938 11px,#f0a938 22px)}
+.track .seg.s{left:84.62%;--w:15.38%;transition-delay:1s;background:rgba(111,151,255,.26);border-radius:0 11px 11px 0}
+.track .marker{position:absolute;top:-7px;bottom:-7px;left:76.92%;width:2px;background:var(--ink);z-index:4;opacity:0;transition:opacity .4s .95s}
 .slide.active .track .marker{opacity:.9}
 .track .marker b{position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);white-space:nowrap;font-family:"Sora";font-weight:600;font-size:10px;letter-spacing:.08em;color:var(--ink)}
 .scale{display:flex;flex-wrap:wrap;gap:16px;align-items:center;font-size:12px;color:var(--muted);margin-bottom:12px}
@@ -288,7 +289,7 @@ body.nofit .deck{width:100%;height:100%;flex:1 1 auto;transform:none}
 .lane-h{display:flex;align-items:center;gap:9px;font-family:"Sora";font-weight:600;font-size:14px;color:var(--ink);padding-bottom:8px;margin-bottom:7px;border-bottom:1px solid var(--line)}
 .lane-h::before{content:"";width:9px;height:9px;border-radius:3px;background:var(--c)}
 .lane-h .n{margin-left:auto;font-family:"Sora";font-weight:600;font-size:12px;color:var(--c);background:var(--cbg);border-radius:999px;padding:3px 10px}
-.it{display:flex;align-items:center;gap:10px;padding:7px 2px;border-bottom:1px solid rgba(140,168,210,.07)}
+.it{display:flex;align-items:center;gap:10px;padding:6px 2px;border-bottom:1px solid rgba(140,168,210,.07)}
 .it:last-child{border-bottom:0}
 .it .mk{flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 0 3px var(--cring)}
 .it.wip .mk{animation:pulse 1.6s ease-in-out infinite}
@@ -463,7 +464,7 @@ body.locked #fit{display:none}
           <div class="cd">
             <div class="big" id="cdBig">—</div>
             <div class="cap" id="cdCap">days remain to close every clause of the promise.</div>
-            <div class="date">Status as at 18 November 2026<s>Four weeks on the clock</s></div>
+            <div class="date">Status as at 26 November 2026<s>Less than three weeks on the clock</s></div>
           </div>
         </div>
       </div>
@@ -491,17 +492,17 @@ body.locked #fit{display:none}
           </div>
           <div class="gate g-amber">
             <div class="g-ix">Gate 03</div><h3>Live promoters</h3>
-            <div class="gauge" style="--circ:276;--off:61"><svg width="96" height="96" viewBox="0 0 96 96"><circle class="trk" cx="48" cy="48" r="44" fill="none" stroke-width="7"/><circle class="val" cx="48" cy="48" r="44" fill="none" stroke-width="7"/></svg><div class="mid"><b>ON&nbsp;TRACK</b></div></div>
-            <p>One live; three configured and ready &mdash; go-lives end-November into early December.</p>
+            <div class="gauge" style="--circ:276;--off:35"><svg width="96" height="96" viewBox="0 0 96 96"><circle class="trk" cx="48" cy="48" r="44" fill="none" stroke-width="7"/><circle class="val" cx="48" cy="48" r="44" fill="none" stroke-width="7"/></svg><div class="mid"><b>2&nbsp;OF&nbsp;3</b></div></div>
+            <p>Two live &mdash; Sunclass and Alliance; Icelandair and SAS configured and ready, the third live imminent.</p>
           </div>
           <div class="gate g-amber">
             <div class="g-ix">Gate 04</div><h3>The ten</h3>
-            <div class="gauge" style="--circ:276;--off:41"><svg width="96" height="96" viewBox="0 0 96 96"><circle class="trk" cx="48" cy="48" r="44" fill="none" stroke-width="7"/><circle class="val" cx="48" cy="48" r="44" fill="none" stroke-width="7"/></svg><div class="mid"><b>9/10</b></div></div>
-            <p>Four delivered, five at working POC &mdash; only a few left to clear.</p>
+            <div class="gauge" style="--circ:276;--off:16"><svg width="96" height="96" viewBox="0 0 96 96"><circle class="trk" cx="48" cy="48" r="44" fill="none" stroke-width="7"/><circle class="val" cx="48" cy="48" r="44" fill="none" stroke-width="7"/></svg><div class="mid"><b>10+</b></div></div>
+            <p>Four delivered, seven at working POC &mdash; past the ten, with two more in reach.</p>
           </div>
         </div>
         <div class="strip">
-          <span><b>Define</b> and <b>Prove</b> are done. The promise now comes down to the next four weeks &mdash; <span class="em">three customer go-lives</span> and <span class="em">automation throughput</span>.</span>
+          <span><b>Define</b> and <b>Prove</b> are done. The promise now comes down to less than three weeks &mdash; <span class="em">the remaining go-lives</span> and <span class="em">automation throughput</span>.</span>
         </div>
       </div>
     </section>
@@ -545,11 +546,11 @@ body.locked #fit{display:none}
             <div class="col-h">Live promoters <s>three live by 15 December</s></div>
             <div class="ladder">
               <div class="rung l1"><span class="pip"></span><span class="line"></span><div class="who"><b>Sunclass</b><s>Live &middot; presented twice at Connections &middot; full advocate</s></div><div class="when">Live now</div></div>
-              <div class="rung l2"><span class="pip"></span><span class="line"></span><div class="who"><b>Icelandair</b><s>Live in production &middot; rollout pending team availability for training (post-IOSA)</s></div><div class="when">End Nov</div></div>
-              <div class="rung l3"><span class="pip"></span><span class="line"></span><div class="who"><b>Alliance Airlines</b><s>Fully configured in production &middot; rollout pending team availability</s></div><div class="when">End Nov</div></div>
-              <div class="rung l4"><span class="pip"></span><span class="line"></span><div class="who"><b>SAS</b><s>Configured &amp; ready in production &middot; rollout slipped, pending users&rsquo; sign-off</s></div><div class="when">Early Dec</div></div>
+              <div class="rung l1"><span class="pip"></span><span class="line"></span><div class="who"><b>Alliance Airlines</b><s>Live in production &middot; went live 26 Nov</s></div><div class="when">Live now</div></div>
+              <div class="rung l2"><span class="pip"></span><span class="line"></span><div class="who"><b>Icelandair</b><s>Training completed 26 Nov &middot; UAT sign-off before 11 Dec</s></div><div class="when">Early Dec</div></div>
+              <div class="rung l3"><span class="pip"></span><span class="line"></span><div class="who"><b>SAS</b><s>Configured &amp; ready in production &middot; rollout slipped, pending users&rsquo; sign-off</s></div><div class="when">Early Dec</div></div>
             </div>
-            <div class="pipeline"><b>Building behind it &mdash; 2027 pipeline:</b> Air Atlanta Icelandic, Aegean, Transavia France, Virgin Australia, Aer Lingus, Etihad and Wider&oslash;e, all engaged with commercial teams.</div>
+            <div class="pipeline"><b>Building behind it &mdash; 2027 pipeline:</b> Air Atlanta Icelandic, Aegean, Transavia France, Virgin Australia, Aer Lingus, Etihad, Wider&oslash;e and WestJet, all engaged with commercial teams.</div>
           </div>
         </div>
       </div>
@@ -561,15 +562,15 @@ body.locked #fit{display:none}
         <div class="m-head">
           <div>
             <span class="kicker"><i></i>Gate 04 &mdash; the ten</span>
-            <h2 style="margin-top:10px">Nine of ten. Closing the gap.</h2>
-            <p class="sub">Four delivered and five more at working POC &mdash; only a few left to clear, all in good time.</p>
+            <h2 style="margin-top:7px">Past the ten &mdash; eleven in hand.</h2>
           </div>
           <div class="tally">
             <div class="t"><b style="color:var(--green)">4</b><s>DELIVERED</s></div>
-            <div class="t"><b style="color:var(--amber)">5</b><s>AT&nbsp;POC</s></div>
-            <div class="t count"><b>9/10</b><s>ON&nbsp;TRACK</s></div>
+            <div class="t"><b style="color:var(--amber)">7</b><s>AT&nbsp;POC</s></div>
+            <div class="t count"><b>11</b><s>PAST&nbsp;TEN</s></div>
           </div>
         </div>
+        <p class="sub5">Four delivered and seven now at working POC &mdash; the promise line cleared, with two more in reach.</p>
 
         <div class="track" aria-hidden="true">
           <div class="seg d"></div>
@@ -586,23 +587,23 @@ body.locked #fit{display:none}
             <div class="it"><span class="mk"></span><div class="xt"><b>Forms &harr; TM365</b><s>Forms&times;TM &middot; PPM-42</s></div><span class="tg">DONE</span></div>
           </div>
           <div class="lane inprog">
-            <div class="lane-h">At POC<span class="n">5</span></div>
+            <div class="lane-h">At POC<span class="n">7</span></div>
             <div class="it wip"><span class="mk"></span><div class="xt"><b>Audit &rarr; notify</b><s>PPM-123</s></div><span class="tg">END-NOV</span></div>
             <div class="it wip"><span class="mk"></span><div class="xt"><b>Audit finding &rarr; notify</b><s>PPM-123</s></div><span class="tg">END-NOV</span></div>
             <div class="it wip"><span class="mk"></span><div class="xt"><b>Regulation revision &rarr; notify</b><s>PPM-123</s></div><span class="tg">END-NOV</span></div>
             <div class="it wip"><span class="mk"></span><div class="xt"><b>Form submitted &rarr; notify</b><s>PPM-123</s></div><span class="tg">END-NOV</span></div>
             <div class="it wip"><span class="mk"></span><div class="xt"><b>Read &amp; Sign digest &rarr; notify</b><s>PPM-123 &middot; new</s></div><span class="tg">END-NOV</span></div>
+            <div class="it wip"><span class="mk"></span><div class="xt"><b>Scheduled audit &rarr; reminder</b><s>PPM-124 &middot; unblocked</s></div><span class="tg">END-NOV</span></div>
+            <div class="it wip"><span class="mk"></span><div class="xt"><b>Audit finding due &rarr; reminder</b><s>PPM-124 &middot; unblocked</s></div><span class="tg">END-NOV</span></div>
           </div>
           <div class="lane stretch">
-            <div class="lane-h">In reach<span class="n">4</span></div>
+            <div class="lane-h">In reach<span class="n">2</span></div>
             <div class="it risk"><span class="mk"></span><div class="xt"><b>Audit findings &harr; documents</b><s>SM&times;CM &middot; PPM-125 &middot; early Dec</s></div><span class="tg risk">AT&nbsp;RISK</span></div>
-            <div class="it"><span class="mk"></span><div class="xt"><b>Scheduled audit &rarr; reminder</b><s>PPM-124 &middot; connector pending</s></div><span class="tg">END-NOV</span></div>
-            <div class="it"><span class="mk"></span><div class="xt"><b>Audit finding due &rarr; reminder</b><s>PPM-124 &middot; connector pending</s></div><span class="tg">END-NOV</span></div>
             <div class="it"><span class="mk"></span><div class="xt"><b>SafetyReporter</b><s>SM&times;CM &middot; PPM-120</s></div><span class="tg">NEXT</span></div>
           </div>
         </div>
 
-        <div class="board-note"><b>Notifications proven in Teams</b> (POC, manual trigger) &mdash; Email/Outlook pending the connector. PPM-125 slipped to early December on a CM365 API block; further use cases sit in the pipeline beyond these.</div>
+        <div class="board-note"><b>Notifications and reminders now both at POC</b> (PPM-123 / PPM-124, in Teams). PPM-125 remains at risk &mdash; early December &mdash; on a CM365 API block; further use cases sit in the pipeline beyond these.</div>
       </div>
     </section>
 
@@ -613,13 +614,12 @@ body.locked #fit{display:none}
         <h2 style="font-size:clamp(25px,3.6vw,42px);font-weight:600;margin:12px 0 0">The live list</h2>
         <p style="color:var(--muted);font-size:14px;line-height:1.55;margin:8px 0 0;max-width:62ch">The work in flight that closes the promise before 15 December &mdash; every item in build or ready to roll.</p>
         <div class="live">
-          <div class="live-row"><span class="ind"></span><div class="mn"><b>Icelandair &mdash; go live</b><s>Live in production &mdash; complete implementation training once their team is free, post-IOSA.</s></div><span class="tag">GO-LIVE</span></div>
-          <div class="live-row"><span class="ind"></span><div class="mn"><b>Alliance Airlines &mdash; go live</b><s>Fully configured in production &mdash; roll out once their team is available.</s></div><span class="tag">GO-LIVE</span></div>
+          <div class="live-row"><span class="ind"></span><div class="mn"><b>Icelandair &mdash; go live</b><s>Training completed 26 Nov &mdash; UAT to be signed off before 11 December.</s></div><span class="tag">GO-LIVE</span></div>
           <div class="live-row"><span class="ind"></span><div class="mn"><b>SAS &mdash; go live</b><s>Configured and ready &mdash; slipped to early December, pending their users&rsquo; sign-off to roll out.</s></div><span class="tag">GO-LIVE</span></div>
           <div class="live-row"><span class="ind"></span><div class="mn"><b>Audit findings &harr; documents</b><s>PPM-125 blocked on a CM365 API change &mdash; now targeting early December.</s></div><span class="tag risk">AT&nbsp;RISK</span></div>
-          <div class="live-row"><span class="ind"></span><div class="mn"><b>Notifications engine</b><s>POC live in Teams &mdash; polish, productionise, and extend to Email/Outlook (connector pending).</s></div><span class="tag">POC</span></div>
+          <div class="live-row"><span class="ind"></span><div class="mn"><b>Automation engine</b><s>Notifications and reminders both at POC in Teams &mdash; polish, productionise and extend channels.</s></div><span class="tag">POC</span></div>
         </div>
-        <div class="live-close">Define and prove are done. The build is ours to finish &mdash; <span>three customers configured and ready, waiting only on their teams to go live.</span></div>
+        <div class="live-close">Define and prove are done. The build is ours to finish &mdash; <span>two customers configured and ready, waiting only on their teams to go live.</span></div>
       </div>
     </section>
 
